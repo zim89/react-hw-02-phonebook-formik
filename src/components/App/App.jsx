@@ -1,17 +1,12 @@
 import { Component } from 'react';
-import { Section, Container, Title } from './Styled';
-import TelbookForm from 'components/TelbookForm/TelbookForm';
+import { nanoid } from 'nanoid';
+import { ToastContainer, toast } from 'react-toastify';
+import AddContactForm from 'components/AddContactForm/AddContactForm';
 import ContactList from 'components/ContactList/ContactList';
 import Filter from 'components/Filter/Filter';
-import { nanoid } from 'nanoid';
-import styled from 'styled-components';
-import { ToastContainer, toast } from 'react-toastify';
+import { Section, Container, Title, Accent } from './Styled';
 import 'react-toastify/dist/ReactToastify.min.css';
 
-const Accent = styled.span`
-  font-weight: 700;
-  color: red;
-`;
 export class App extends Component {
   state = {
     contacts: [
@@ -24,17 +19,21 @@ export class App extends Component {
   };
 
   addContact = ({ name, number }) => {
+    const { contacts } = this.state;
+
     const contact = {
       id: nanoid(),
       name,
       number,
     };
 
-    const isIncludeName = this.state.contacts.some(
+    const isIncludeName = contacts.some(
       value => value.name.toLowerCase() === name.toLowerCase()
     );
-    const isIncludeNumber = this.state.contacts.some(
-      value => value.number.split('-').join('') === number.split('-').join('')
+    const isIncludeNumber = contacts.some(
+      value =>
+        value.number.replace('+', '').split('-').join('') ===
+        number.replace('+', '').split('-').join('')
     );
 
     if (isIncludeName) {
@@ -87,9 +86,10 @@ export class App extends Component {
         <Section>
           <Container>
             <Title>Phonebook</Title>
-            <TelbookForm onSubmit={this.addContact} />
+            <AddContactForm onSubmit={this.addContact} />
           </Container>
         </Section>
+
         <Section>
           <Container>
             <Title>Contacts</Title>

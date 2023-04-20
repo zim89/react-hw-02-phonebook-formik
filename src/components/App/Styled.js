@@ -18,4 +18,9 @@ const Title = styled.h2`
   font-weight: 700;
 `;
 
-export { Section, Container, Title };
+const Accent = styled.span`
+  font-weight: 700;
+  color: #dc3444;
+`;
+
+export { Section, Container, Title, Accent };
